@@ -1,0 +1,83 @@
+[
+    {
+        "name": "chris",
+        "characteristics": [
+            "nice"
+        ],
+        "interests": [
+            "sports"
+        ],
+        "age": "10",
+        "gender": "male",
+        "formality": "formal",
+        "diff": "easy"
+    },
+    {
+        "name": "chrissy",
+        "characteristics": [
+            "nice"
+        ],
+        "interests": [
+            "sports"
+        ],
+        "age": "10 ",
+        "gender": "female",
+        "formality": "formal",
+        "diff": "easy"
+    },
+    {
+        "name": "bea",
+        "characteristics": [
+            "nice"
+        ],
+        "interests": [
+            "dog"
+        ],
+        "age": "10 ",
+        "gender": "male",
+        "formality": "forma",
+        "diff": "easy"
+    },
+    {
+        "name": "Alyssa",
+        "characteristics": [
+            "student",
+            "Californian",
+            "pretty",
+            "comedic",
+            "tall"
+        ],
+        "interests": [
+            "dogs",
+            "animals",
+            "marketing",
+            "traveling",
+            "food"
+        ],
+        "age": "20",
+        "gender": "female",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Alyssa",
+        "characteristics": [
+            "student",
+            "Californian",
+            "pretty",
+            "comedic",
+            "tall"
+        ],
+        "interests": [
+            "dogs",
+            "animals",
+            "marketing",
+            "traveling",
+            "food"
+        ],
+        "age": "20",
+        "gender": "female",
+        "formality": "informal",
+        "diff": "easy"
+    }
+]
