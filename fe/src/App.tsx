@@ -11,7 +11,10 @@ function App() {
     gender: '',
     formality: 'informal',
     diff: 'easy'
+    
   });
+
+  const [savedPersons, setSavedPersons] = useState<Array<any>>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +22,7 @@ function App() {
       const response = await axios.post('http://localhost:5000/api/person', formData);
       if (response.data.success) {
         alert('Person saved successfully!');
+        setSavedPersons([...savedPersons, formData]); // Add the new person
         setFormData({
           name: '',
           characteristics: '',
@@ -106,9 +110,23 @@ function App() {
           </select>
         </div>
         <button type="submit">Save Person</button>
-      </form>
+    </form>
+    <div className="saved-persons">
+      <h2>Saved Persons</h2>
+      <div className="persons-grid">
+        {savedPersons.map((person, index) => (
+          <div key={index} className="person-card">
+            <h3>{person.name}</h3>
+            <p>Age: {person.age}</p>
+            <p>Gender: {person.gender}</p>
+            <p>Characteristics: {person.characteristics}</p>
+            <p>Interests: {person.interests}</p>
+          </div>
+        ))}
+      </div>
     </div>
-  );
+  </div>
+  ); 
 }
 
 export default App;
