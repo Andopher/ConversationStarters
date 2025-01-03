@@ -202,5 +202,52 @@
         "gender": "",
         "formality": "informal",
         "diff": "easy"
+    },
+    {
+        "name": "Christopher Risio",
+        "characteristics": [
+            "nice",
+            "athletic",
+            "interesting"
+        ],
+        "interests": [
+            "fortnite",
+            "football"
+        ],
+        "age": "33",
+        "gender": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Christopher Andrew Risio",
+        "characteristics": [
+            "nice",
+            "athletic",
+            "interesting"
+        ],
+        "interests": [
+            "fortnite",
+            "football"
+        ],
+        "age": "8",
+        "gender": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Christopher Risio",
+        "characteristics": [
+            "nice",
+            "athletic",
+            "interesting"
+        ],
+        "interests": [
+            "sports"
+        ],
+        "age": "12",
+        "gender": "Male",
+        "formality": "informal",
+        "diff": "easy"
     }
 ]

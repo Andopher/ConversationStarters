@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
+interface ApiResponse {
+  success: boolean;
+}
+
+interface StarterResponse {
+  starter: string;
+}
+
 function App() {
   const [formData, setFormData] = useState({
     name: '',
@@ -19,7 +27,7 @@ function App() {
 
   const generateStarter = async (person: any, index: number) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/conversation-starter', person);
+      const response = await axios.post<StarterResponse>('http://localhost:5000/api/conversation-starter', person);
       setStarters({
         ...starters,
         [index]: response.data.starter
@@ -33,7 +41,7 @@ function App() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/person', formData);
+      const response = await axios.post<ApiResponse>('http://localhost:5000/api/person', formData);
       if (response.data.success) {
         alert('Person saved successfully!');
         setSavedPersons([...savedPersons, formData]); // Add the new person
@@ -94,7 +102,7 @@ function App() {
         <div>
           <label>Age:</label>
           <input
-            type="text"
+            type="number"
             name="age"
             value={formData.age}
             onChange={handleChange}
@@ -102,7 +110,8 @@ function App() {
         </div>
         <div>
           <label>Gender:</label>
-          <select name="Gender" value={formData.gender} onChange={handleChange}>
+          <select name="gender" value={formData.gender} onChange={handleChange}>
+            <option value="">Select gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
