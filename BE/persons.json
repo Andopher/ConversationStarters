@@ -136,5 +136,32 @@
         "gender": "female",
         "formality": "informal",
         "diff": "easy"
+    },
+    {
+        "name": "alyssa ",
+        "characteristics": [
+            "girl"
+        ],
+        "interests": [
+            "girl stuff"
+        ],
+        "age": "20",
+        "gender": "female",
+        "formality": "formal",
+        "diff": "hard"
+    },
+    {
+        "name": "Risio, Christopher - Resume ",
+        "characteristics": [
+            "nice"
+        ],
+        "interests": [
+            "fortnite",
+            "football"
+        ],
+        "age": "12",
+        "gender": "yw",
+        "formality": "formal",
+        "diff": "hard"
     }
 ]
