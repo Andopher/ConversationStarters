@@ -301,5 +301,21 @@
         "gender": "",
         "formality": "informal",
         "diff": "easy"
+    },
+    {
+        "name": "Alyssa",
+        "characteristics": [
+            "Nice",
+            "friendly"
+        ],
+        "interests": [
+            "fortnite",
+            "football"
+        ],
+        "age": "34",
+        "gender": "Female",
+        "relation": "Dog sitter",
+        "formality": "formal",
+        "diff": "hard"
     }
 ]

@@ -94,7 +94,12 @@ function App() {
   return (
     <div className="App">
       {!user ? (
-        <button onClick={signInWithGoogle}>Sign in with Google</button>
+        <div>
+          <h1>Sign in to save your data</h1>
+          <div className="google-sign-in">
+            <button onClick={signInWithGoogle}>Sign in with Google</button>
+          </div>
+        </div>
       ) : (
         <div>
           <p>Welcome, {user.displayName}!</p>
