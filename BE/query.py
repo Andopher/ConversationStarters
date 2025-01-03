@@ -22,10 +22,10 @@ openai_client = OpenAI(
 
 def query(prompt):
     messages = [
-        {"role": "system", "content": prompt},
+        {"role": "user", "content": prompt},
     ]
     response = openai_client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini-2024-07-18",
         messages=messages,
     )
     return response.choices[0].message.content

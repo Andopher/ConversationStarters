@@ -16,6 +16,7 @@ def create_person():
         interests=data['interests'].split('/'),
         age=data['age'],
         gender=data['gender'],
+        relation=data['relation'],
         formality=data['formality'],
         diff=data['diff']
     )
@@ -31,6 +32,7 @@ def get_conversation_starter():
         interests=data['interests'].split('/'),
         age=data['age'],
         gender=data['gender'],
+        relation=data['relation'],
         formality=data['formality'],
         diff=data['diff']
     )
@@ -39,6 +41,7 @@ def get_conversation_starter():
             Assume nothing. Ask anything that is not explicitly given to you.
             I am speaking to {person.name}. 
             This conversation is {person.formality}.
+            Their relation to me is {person.relation}.
             Their charachteristics are {person.characteristics}. 
             They are interested are {person.interests[i]}.
             They are {person.age} year old {person.gender}. 

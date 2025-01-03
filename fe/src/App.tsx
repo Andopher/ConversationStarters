@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import { signInWithPopup, signOut } from 'firebase/auth';
+import { auth, googleProvider } from './firebase';
 
 interface ApiResponse {
   success: boolean;
@@ -17,6 +19,7 @@ function App() {
     interests: '',
     age: '',
     gender: '',
+    relation: '',
     formality: 'informal',
     diff: 'easy'
     
@@ -24,6 +27,7 @@ function App() {
 
   const [savedPersons, setSavedPersons] = useState<Array<any>>([]);
     const [starters, setStarters] = useState<{[key: number]: string}>({});
+  const [user, setUser] = useState<any>(null);
 
   const generateStarter = async (person: any, index: number) => {
     try {
@@ -51,6 +55,7 @@ function App() {
           interests: '',
           age: '',
           gender: '',
+          relation: '',
           formality: 'informal',
           diff: 'easy'
         });
@@ -68,8 +73,34 @@ function App() {
     });
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      setUser(result.user);
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   return (
     <div className="App">
+      {!user ? (
+        <button onClick={signInWithGoogle}>Sign in with Google</button>
+      ) : (
+        <div>
+          <p>Welcome, {user.displayName}!</p>
+          <button onClick={handleSignOut}>Sign Out</button>
+        </div>
+      )}
       <h1>Conversation Starter</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -117,6 +148,15 @@ function App() {
           </select>
         </div>
         <div>
+          <label>Relation:</label>
+          <input
+            type="text"
+            name="relation"
+            value={formData.relation}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
           <label>Formality:</label>
           <select name="formality" value={formData.formality} onChange={handleChange}>
             <option value="formal">Formal</option>
@@ -141,6 +181,7 @@ function App() {
             <h3>{person.name}</h3>
             <p>Age: {person.age}</p>
             <p>Gender: {person.gender}</p>
+            <p>Relation: {person.relation}</p>
             <p>Characteristics: {person.characteristics}</p>
             <p>Interests: {person.interests}</p>
             <button onClick={() => generateStarter(person, index)}>

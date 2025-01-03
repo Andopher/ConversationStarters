@@ -4,12 +4,13 @@ import json
 
 
 class Person:
-    def __init__(self, name, characteristics, interests, age, gender, formality, diff):
+    def __init__(self, name, characteristics, interests, age, gender, relation, formality, diff):
         self.name = name
         self.characteristics = characteristics
         self.interests = interests
         self.age = age
         self.gender = gender
+        self.relation = relation
         self.formality = formality
         self.diff = diff
 
@@ -20,6 +21,7 @@ def save_person_to_json(person):
         "interests": person.interests,
         "age": person.age,
         "gender": person.gender,
+        "relation": person.relation,
         "formality": person.formality,
         "diff": person.diff
     }
@@ -55,12 +57,13 @@ def main():
     interestsL = [s.strip() for s in interests.split('/') if s.strip()]
     age = input("What is the persons age: ")
     gender = input("What is the persons gender: ")
+    relation = input("What is this person's relation to you? ")
     name = input("What is this persons name: ")
     diff = input("Should the question be easy or hard to answer? ")
     formality = input("Is the conversation formal or informal? ")
     
     # Create person object with collected data
-    person = Person(name, characteristicsL, interestsL, age, gender, formality, diff)
+    person = Person(name, characteristicsL, interestsL, age, gender, relation, formality, diff)
     save_person_to_json(person)
 
     i = random.randint(0, len(person.interests) - 1)

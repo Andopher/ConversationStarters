@@ -249,5 +249,57 @@
         "gender": "Male",
         "formality": "informal",
         "diff": "easy"
+    },
+    {
+        "name": "Alyssa",
+        "characteristics": [
+            "nice"
+        ],
+        "interests": [
+            "girl stuff"
+        ],
+        "age": "20",
+        "gender": "Female",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Christopher Risio",
+        "characteristics": [
+            "fortnite player"
+        ],
+        "interests": [
+            "sports"
+        ],
+        "age": "12",
+        "gender": "Male",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Alex",
+        "characteristics": [
+            "f"
+        ],
+        "interests": [
+            "f"
+        ],
+        "age": "12",
+        "gender": "",
+        "formality": "informal",
+        "diff": "easy"
     }
 ]
