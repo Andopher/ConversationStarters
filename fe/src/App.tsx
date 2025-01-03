@@ -15,6 +15,20 @@ function App() {
   });
 
   const [savedPersons, setSavedPersons] = useState<Array<any>>([]);
+    const [starters, setStarters] = useState<{[key: number]: string}>({});
+
+  const generateStarter = async (person: any, index: number) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/conversation-starter', person);
+      setStarters({
+        ...starters,
+        [index]: response.data.starter
+      });
+    } catch (error) {
+      console.error('Error generating conversation starter:', error);
+      alert('Error generating conversation starter');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,12 +102,10 @@ function App() {
         </div>
         <div>
           <label>Gender:</label>
-          <input
-            type="text"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-          />
+          <select name="Gender" value={formData.gender} onChange={handleChange}>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
         </div>
         <div>
           <label>Formality:</label>
@@ -106,6 +118,7 @@ function App() {
           <label>Difficulty:</label>
           <select name="diff" value={formData.diff} onChange={handleChange}>
             <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
             <option value="hard">Hard</option>
           </select>
         </div>
@@ -121,6 +134,14 @@ function App() {
             <p>Gender: {person.gender}</p>
             <p>Characteristics: {person.characteristics}</p>
             <p>Interests: {person.interests}</p>
+            <button onClick={() => generateStarter(person, index)}>
+              Generate Conversation Starter
+            </button>
+            {starters[index] && (
+              <p className="conversation-starter">
+                {starters[index]}
+              </p>
+            )}
           </div>
         ))}
       </div>

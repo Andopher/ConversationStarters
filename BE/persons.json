@@ -163,5 +163,44 @@
         "gender": "yw",
         "formality": "formal",
         "diff": "hard"
+    },
+    {
+        "name": "Alyssa",
+        "characteristics": [
+            "Nice, Interesting"
+        ],
+        "interests": [
+            "Sports, Marketing"
+        ],
+        "age": "20",
+        "gender": "male",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Alyssa",
+        "characteristics": [
+            "Loves the draft, hates deserters"
+        ],
+        "interests": [
+            "Loves the draft, hates deserters"
+        ],
+        "age": "20",
+        "gender": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Alyssa",
+        "characteristics": [
+            "Patriotic"
+        ],
+        "interests": [
+            "History, Fortnite"
+        ],
+        "age": "20",
+        "gender": "",
+        "formality": "informal",
+        "diff": "easy"
     }
 ]

@@ -55,3 +55,20 @@ button:hover {
   margin-top: 0;
   color: #333;
 }
+
+.conversation-starter {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #e8f5e9;
+  border-radius: 4px;
+  font-style: italic;
+}
+
+.person-card button {
+  margin-top: 10px;
+  background-color: #2196f3;
+}
+
+.person-card button:hover {
+  background-color: #1976d2;
+}
