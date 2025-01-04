@@ -554,5 +554,515 @@
         "relation": "4",
         "formality": "informal",
         "diff": "easy"
+    },
+    {
+        "name": "Andrew",
+        "characteristics": [
+            "Wise",
+            "Caring"
+        ],
+        "interests": [
+            "Video Games",
+            "Football"
+        ],
+        "age": "56",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "formal",
+        "diff": "medium"
+    },
+    {
+        "name": "Carmen",
+        "characteristics": [
+            "Caring",
+            "Queit"
+        ],
+        "interests": [
+            "True Crime",
+            "German Culture"
+        ],
+        "age": "52",
+        "gender": "Female",
+        "relation": "Mother",
+        "formality": "formal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "f",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "g",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "h",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "f",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "f",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "f",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "f",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "f",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "",
+        "characteristics": [
+            ""
+        ],
+        "interests": [
+            ""
+        ],
+        "age": "",
+        "gender": "",
+        "relation": "f",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Christopher Risio",
+        "characteristics": [
+            "Wise",
+            "Caring"
+        ],
+        "interests": [
+            "Video Games",
+            "Football"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "3",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "2",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
     }
 ]

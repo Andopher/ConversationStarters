@@ -12,6 +12,27 @@ interface StarterResponse {
   starter: string;
 }
 
+interface Person {
+  id: string;
+  name: string;
+  characteristics: string;
+  interests: string;
+  age: string;
+  gender: string;
+  relation: string;
+  formality: string;
+  diff: string;
+}
+
+interface FormErrors {
+  name: string;
+  characteristics: string;
+  interests: string;
+  age: string;
+  gender: string;
+  relation: string;
+}
+
 function App() {
   const [formData, setFormData] = useState({
     name: '',
@@ -25,17 +46,28 @@ function App() {
     
   });
 
-  const [savedPersons, setSavedPersons] = useState<Array<any>>([]);
-    const [starters, setStarters] = useState<{[key: number]: string}>({});
+  const [savedPersons, setSavedPersons] = useState<Person[]>([]);
+  const [starters, setStarters] = useState<{[key: string]: string}>({});
   const [user, setUser] = useState<any>(null);
   const [uniqueRelations, setUniqueRelations] = useState<Set<string>>(new Set());
+  const [isLandingPage, setIsLandingPage] = useState(true);
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+  const [selectedRelation, setSelectedRelation] = useState<string | null>(null);
+  const [formErrors, setFormErrors] = useState<FormErrors>({
+    name: '',
+    characteristics: '',
+    interests: '',
+    age: '',
+    gender: '',
+    relation: ''
+  });
 
-  const generateStarter = async (person: any, index: number) => {
+  const generateStarter = async (person: Person) => {
     try {
       const response = await axios.post<StarterResponse>('http://localhost:5000/api/conversation-starter', person);
       setStarters({
         ...starters,
-        [index]: response.data.starter
+        [person.id]: response.data.starter
       });
     } catch (error) {
       console.error('Error generating conversation starter:', error);
@@ -43,13 +75,71 @@ function App() {
     }
   };
 
+  const validateForm = (): boolean => {
+    const errors: FormErrors = {
+      name: '',
+      characteristics: '',
+      interests: '',
+      age: '',
+      gender: '',
+      relation: ''
+    };
+    
+    let isValid = true;
+
+    if (!formData.name.trim()) {
+      errors.name = 'Name is required';
+      isValid = false;
+    }
+
+    if (!formData.characteristics.trim()) {
+      errors.characteristics = 'Characteristics are required';
+      isValid = false;
+    }
+
+    if (!formData.interests.trim()) {
+      errors.interests = 'Interests are required';
+      isValid = false;
+    }
+
+    if (!formData.age) {
+      errors.age = 'Age is required';
+      isValid = false;
+    } else if (parseInt(formData.age) <= 0) {
+      errors.age = 'Age must be a positive number';
+      isValid = false;
+    }
+
+    if (!formData.gender) {
+      errors.gender = 'Gender is required';
+      isValid = false;
+    }
+
+    if (!formData.relation.trim()) {
+      errors.relation = 'Relation is required';
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const response = await axios.post<ApiResponse>('http://localhost:5000/api/person', formData);
       if (response.data.success) {
+        const newPerson = {
+          ...formData,
+          id: Date.now().toString()
+        };
         setUniqueRelations(prev => new Set([...prev, formData.relation]));
-        setSavedPersons([...savedPersons, formData]);
+        setSavedPersons([...savedPersons, newPerson]);
         setFormData({
           name: '',
           characteristics: '',
@@ -59,6 +149,14 @@ function App() {
           relation: '',
           formality: 'informal',
           diff: 'easy'
+        });
+        setFormErrors({
+          name: '',
+          characteristics: '',
+          interests: '',
+          age: '',
+          gender: '',
+          relation: ''
         });
       }
     } catch (error) {
@@ -92,16 +190,48 @@ function App() {
     }
   };
 
+  const handleSignIn = () => {
+    setIsLandingPage(false);
+  };
+
+  const handleCreateAccount = () => {
+    setIsLandingPage(false);
+  };
+
+  const handleRelationClick = (relation: string) => {
+    setSelectedRelation(relation);
+  };
+
+  const handleBackClick = () => {
+    setSelectedRelation(null);
+  };
+
+  if (isLandingPage) {
+    return (
+      <div className="landing-page">
+        <h1>Welcome to Conversation Starter</h1>
+        <div className="landing-buttons">
+          <button onClick={handleSignIn}>Sign In</button>
+          <button onClick={handleCreateAccount}>Create Account</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isCreatingAccount) {
+    return (
+      <div className="create-account-page">
+        <h1>Create Your Account</h1>
+        <form className="create-account-form">
+          <button onClick={() => setIsLandingPage(false)}>Create Account</button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
-      {!user ? (
-        <div>
-          <h1>Sign in to save your data</h1>
-          <div className="google-sign-in">
-            <button onClick={signInWithGoogle}>Sign in with Google</button>
-          </div>
-        </div>
-      ) : (
+      {user && (
         <div>
           <p>Welcome, {user.displayName}!</p>
           <button onClick={handleSignOut}>Sign Out</button>
@@ -109,7 +239,7 @@ function App() {
       )}
       <div className="conversation-starter-header">
         <h1>Conversation Starter</h1>
-        </div>
+      </div>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
@@ -118,7 +248,9 @@ function App() {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            className={formErrors.name ? 'error' : ''}
           />
+          {formErrors.name && <span className="error-message">{formErrors.name}</span>}
         </div>
         <div>
           <label>Characteristics (separate by /):</label>
@@ -127,7 +259,9 @@ function App() {
             name="characteristics"
             value={formData.characteristics}
             onChange={handleChange}
+            className={formErrors.characteristics ? 'error' : ''}
           />
+          {formErrors.characteristics && <span className="error-message">{formErrors.characteristics}</span>}
         </div>
         <div>
           <label>Interests (separate by /):</label>
@@ -136,7 +270,9 @@ function App() {
             name="interests"
             value={formData.interests}
             onChange={handleChange}
+            className={formErrors.interests ? 'error' : ''}
           />
+          {formErrors.interests && <span className="error-message">{formErrors.interests}</span>}
         </div>
         <div>
           <label>Age:</label>
@@ -145,15 +281,23 @@ function App() {
             name="age"
             value={formData.age}
             onChange={handleChange}
+            className={formErrors.age ? 'error' : ''}
           />
+          {formErrors.age && <span className="error-message">{formErrors.age}</span>}
         </div>
         <div>
           <label>Gender:</label>
-          <select name="gender" value={formData.gender} onChange={handleChange}>
+          <select 
+            name="gender" 
+            value={formData.gender} 
+            onChange={handleChange}
+            className={formErrors.gender ? 'error' : ''}
+          >
             <option value="">Select gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
+          {formErrors.gender && <span className="error-message">{formErrors.gender}</span>}
         </div>
         <div>
           <label>Relation:</label>
@@ -161,6 +305,7 @@ function App() {
             name="relation" 
             value={formData.relation} 
             onChange={handleChange}
+            className={formErrors.relation ? 'error' : ''}
           >
             <option value="">Select or type a relation</option>
             {Array.from(uniqueRelations).map(relation => (
@@ -174,7 +319,9 @@ function App() {
             onChange={handleChange}
             placeholder="Or type a new relation"
             style={{ marginTop: '5px' }}
+            className={formErrors.relation ? 'error' : ''}
           />
+          {formErrors.relation && <span className="error-message">{formErrors.relation}</span>}
           {!uniqueRelations.has(formData.relation) && formData.relation && (
             <small>New relation will be added</small>
           )}
@@ -198,34 +345,49 @@ function App() {
     </form>
     <div className="saved-persons">
       <h2>Saved Persons by Relation</h2>
-      <div className="relations-grid">
-        {[...uniqueRelations].map(relation => (
-          <div key={relation} className="relation-column">
-            <h3>{relation}</h3>
-            <div className="persons-by-relation">
-              {savedPersons
-                .filter(person => person.relation === relation)
-                .map((person, index) => (
-                  <div key={index} className="person-card">
-                    <h4>{person.name}</h4>
-                    <p>Age: {person.age}</p>
-                    <p>Gender: {person.gender}</p>
-                    <p>Characteristics: {person.characteristics}</p>
-                    <p>Interests: {person.interests}</p>
-                    <button onClick={() => generateStarter(person, index)}>
-                      Generate Conversation Starter
-                    </button>
-                    {starters[index] && (
-                      <p className="conversation-starter">
-                        {starters[index]}
-                      </p>
-                    )}
-                  </div>
-                ))}
-            </div>
+      
+      {selectedRelation ? (
+        <div className="relation-detail-view">
+          <button className="back-button" onClick={handleBackClick}>
+            ← Back to Relations
+          </button>
+          <h3>{selectedRelation}</h3>
+          <div className="persons-grid">
+            {savedPersons
+              .filter(person => person.relation === selectedRelation)
+              .map((person) => (
+                <div key={person.id} className="person-card">
+                  <h4>{person.name}</h4>
+                  <p>Age: {person.age}</p>
+                  <p>Gender: {person.gender}</p>
+                  <p>Characteristics: {person.characteristics}</p>
+                  <p>Interests: {person.interests}</p>
+                  <button onClick={() => generateStarter(person)}>
+                    Generate Conversation Starter
+                  </button>
+                  {starters[person.id] && (
+                    <p className="conversation-starter">
+                      {starters[person.id]}
+                    </p>
+                  )}
+                </div>
+              ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <div className="relations-grid">
+          {[...uniqueRelations].map(relation => (
+            <button
+              key={relation}
+              className="relation-button"
+              onClick={() => handleRelationClick(relation)}
+            >
+              <h3>{relation}</h3>
+              <p>{savedPersons.filter(person => person.relation === relation).length} people</p>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   </div>
   ); 
