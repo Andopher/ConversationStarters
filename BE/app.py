@@ -51,6 +51,7 @@ def get_conversation_starter():
             Maintain a neutral mood (Dont be overly cheery or negative). 
             Make it unique and specific do not ask general questions. 
             The question should be {person.diff} to answer.
+            Be gentle and friendly please this is the most important thing.
             Return only the Conversation starter."""
     output = query(prompt)
     return jsonify({"starter": output})

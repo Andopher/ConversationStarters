@@ -28,6 +28,7 @@ function App() {
   const [savedPersons, setSavedPersons] = useState<Array<any>>([]);
     const [starters, setStarters] = useState<{[key: number]: string}>({});
   const [user, setUser] = useState<any>(null);
+  const [uniqueRelations, setUniqueRelations] = useState<Set<string>>(new Set());
 
   const generateStarter = async (person: any, index: number) => {
     try {
@@ -47,8 +48,8 @@ function App() {
     try {
       const response = await axios.post<ApiResponse>('http://localhost:5000/api/person', formData);
       if (response.data.success) {
-        alert('Person saved successfully!');
-        setSavedPersons([...savedPersons, formData]); // Add the new person
+        setUniqueRelations(prev => new Set([...prev, formData.relation]));
+        setSavedPersons([...savedPersons, formData]);
         setFormData({
           name: '',
           characteristics: '',
@@ -61,7 +62,7 @@ function App() {
         });
       }
     } catch (error) {
-      console.error('Error details:', error); 
+      console.error('Error details:', error);
       alert('Error saving person');
     }
   };
@@ -106,7 +107,9 @@ function App() {
           <button onClick={handleSignOut}>Sign Out</button>
         </div>
       )}
-      <h1>Conversation Starter</h1>
+      <div className="conversation-starter-header">
+        <h1>Conversation Starter</h1>
+        </div>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
@@ -154,12 +157,27 @@ function App() {
         </div>
         <div>
           <label>Relation:</label>
+          <select 
+            name="relation" 
+            value={formData.relation} 
+            onChange={handleChange}
+          >
+            <option value="">Select or type a relation</option>
+            {Array.from(uniqueRelations).map(relation => (
+              <option key={relation} value={relation}>{relation}</option>
+            ))}
+          </select>
           <input
             type="text"
             name="relation"
             value={formData.relation}
             onChange={handleChange}
+            placeholder="Or type a new relation"
+            style={{ marginTop: '5px' }}
           />
+          {!uniqueRelations.has(formData.relation) && formData.relation && (
+            <small>New relation will be added</small>
+          )}
         </div>
         <div>
           <label>Formality:</label>
@@ -179,24 +197,32 @@ function App() {
         <button type="submit">Save Person</button>
     </form>
     <div className="saved-persons">
-      <h2>Saved Persons</h2>
-      <div className="persons-grid">
-        {savedPersons.map((person, index) => (
-          <div key={index} className="person-card">
-            <h3>{person.name}</h3>
-            <p>Age: {person.age}</p>
-            <p>Gender: {person.gender}</p>
-            <p>Relation: {person.relation}</p>
-            <p>Characteristics: {person.characteristics}</p>
-            <p>Interests: {person.interests}</p>
-            <button onClick={() => generateStarter(person, index)}>
-              Generate Conversation Starter
-            </button>
-            {starters[index] && (
-              <p className="conversation-starter">
-                {starters[index]}
-              </p>
-            )}
+      <h2>Saved Persons by Relation</h2>
+      <div className="relations-grid">
+        {[...uniqueRelations].map(relation => (
+          <div key={relation} className="relation-column">
+            <h3>{relation}</h3>
+            <div className="persons-by-relation">
+              {savedPersons
+                .filter(person => person.relation === relation)
+                .map((person, index) => (
+                  <div key={index} className="person-card">
+                    <h4>{person.name}</h4>
+                    <p>Age: {person.age}</p>
+                    <p>Gender: {person.gender}</p>
+                    <p>Characteristics: {person.characteristics}</p>
+                    <p>Interests: {person.interests}</p>
+                    <button onClick={() => generateStarter(person, index)}>
+                      Generate Conversation Starter
+                    </button>
+                    {starters[index] && (
+                      <p className="conversation-starter">
+                        {starters[index]}
+                      </p>
+                    )}
+                  </div>
+                ))}
+            </div>
           </div>
         ))}
       </div>
