@@ -1064,5 +1064,110 @@
         "relation": "Father",
         "formality": "informal",
         "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "1",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Female",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "1",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Father",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "1",
+        "characteristics": [
+            "1"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "1",
+        "formality": "informal",
+        "diff": "easy"
+    },
+    {
+        "name": "Christopher Risio",
+        "characteristics": [
+            "Wise",
+            "Caring"
+        ],
+        "interests": [
+            "Video Games",
+            "Football"
+        ],
+        "age": "21",
+        "gender": "Male",
+        "relation": "Myself",
+        "formality": "informal",
+        "diff": "medium"
+    },
+    {
+        "name": "Stewie Griffin ",
+        "characteristics": [
+            "Evil",
+            "Nefarious",
+            "Fiercly Intelligent",
+            "Caring"
+        ],
+        "interests": [
+            "Destruction",
+            "Weapons",
+            "Brian Griffin"
+        ],
+        "age": "1",
+        "gender": "Male",
+        "relation": "Stewie",
+        "formality": "formal",
+        "diff": "hard"
     }
 ]
