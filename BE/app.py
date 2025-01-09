@@ -12,8 +12,8 @@ def create_person():
     data = request.json
     person = Person(
         name=data['name'],
-        characteristics=data['characteristics'].split('/'),
-        interests=data['interests'].split('/'),
+        characteristics=data['characteristics'].split(','),
+        interests=data['interests'].split(','),
         age=data['age'],
         gender=data['gender'],
         relation=data['relation'],
@@ -28,8 +28,8 @@ def get_conversation_starter():
     data = request.json
     person = Person(
         name=data['name'],
-        characteristics=data['characteristics'].split('/'),
-        interests=data['interests'].split('/'),
+        characteristics=data['characteristics'].split(','),
+        interests=data['interests'].split(','),
         age=data['age'],
         gender=data['gender'],
         relation=data['relation'],
@@ -52,6 +52,8 @@ def get_conversation_starter():
             Make it unique and specific do not ask general questions. 
             The question should be {person.diff} to answer.
             Be gentle and friendly please this is the most important thing.
+            Assume Nothing about the person.
+            Assume you have no prior shared experiences.
             Return only the Conversation starter."""
     output = query(prompt)
     return jsonify({"starter": output})

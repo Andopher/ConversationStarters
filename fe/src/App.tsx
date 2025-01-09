@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import logo from './assets/HelperLogo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+library.add(faCopy);
+
 
 interface ApiResponse {
   success: boolean;
@@ -21,6 +27,23 @@ interface Person {
   relation: string;
   formality: string;
   diff: string;
+}
+
+interface AlumRec {
+  name: string;
+  Company: string;
+  Position: string;
+  Job: string;
+  PrefSignof: string;
+  MyCollege: string;
+  MyMajor: string;
+  MyYear: string;
+}
+
+interface Template {
+  id: string;
+  name: string;
+  content: string;
 }
 
 interface FormErrors {
@@ -95,6 +118,13 @@ function App(): JSX.Element {
   const [professionalRelations, setProfessionalRelations] = useState<Set<string>>(new Set());
   const [starters, setStarters] = useState<{[key: string]: string}>({});
   const [user, setUser] = useState<any>(null);
+  const [templates, setTemplates] = useState<Template[]>([
+    { 
+      id: '1', 
+      name: "Chris's Template", 
+      content: "Hi {name},\n\n Hope this message finds you well! My name is {signoff}, and I am a student at {college}. I recently applied to the {job} program at {company} and noticed that you are working there as a {position}.\n I was wondering if you could share any insights about your experience at {company}, particularly the culture or the team dynamics. Any advice you may have for someone trying to make a strong impression in the process is greatly appreciated.\n\nBest regards,\n{signoff} "
+    }
+  ]);  
   const [isHomePage, setIsHomePage] = useState(false);
   const [currentBizPage, setCurrentBizPage] = useState<string>('main');
   const [selectedRelation, setSelectedRelation] = useState<string | null>(null);
@@ -120,6 +150,7 @@ function App(): JSX.Element {
       alert('Error generating conversation starter');
     }
   };
+
 
   const validateForm = (): boolean => {
     const errors: FormErrors = {
@@ -290,7 +321,7 @@ function App(): JSX.Element {
               {formErrors.name && <span className="error-message">{formErrors.name}</span>}
             </div>
             <div>
-              <label>Characteristics (separate by /):</label>
+              <label>Characteristics (separate by ,):</label>
               <input
                 type="text"
                 name="characteristics"
@@ -300,7 +331,7 @@ function App(): JSX.Element {
               {formErrors.characteristics && <span className="error-message">{formErrors.characteristics}</span>}
             </div>
             <div>
-              <label>Interests (separate by /):</label>
+              <label>Interests (separate by ,):</label>
               <input
                 type="text"
                 name="interests"
@@ -432,17 +463,198 @@ function App(): JSX.Element {
         ← Back
       </button>
       <h1>Email Signature Creator</h1>
+      <h1>COMING SOON</h1>
     </div>
   );
 
-  const MessageTemplatesPage = () => (
-    <div className="biz-page">
-      <button className="back-button" onClick={() => handleNavigation('main')}>
-        ← Back
-      </button>
-      <h1>Message to Alumni/Recruiters Generator</h1>
-    </div>
-  );
+  const addNewTemplate = (template: Template) => {
+    setTemplates([...templates, template]);
+  };
+
+  const MessageTemplatesPage = () => {
+    // Add local state for AlumRec form data
+    const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+    const [generatedMessage, setGeneratedMessage] = useState<string>('');
+    const [alumRecData, setAlumRecData] = useState<AlumRec>({
+      name: '',
+      Company: '',
+      Position: '',
+      Job: '',
+      PrefSignof: '',
+      MyCollege: '',
+      MyMajor: '',
+      MyYear: ''
+    });
+  
+    // Add handler for AlumRec form changes
+    const handleAlumRecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setAlumRecData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    };
+  
+    const generateMessage = (template: string, data: AlumRec) => {
+      let message = template;
+      message = message.replace(/{name}/g, data.name);
+      message = message.replace(/{company}/g, data.Company);
+      message = message.replace(/{position}/g, data.Position);
+      message = message.replace(/{job}/g, data.Job);
+      message = message.replace(/{signoff}/g, data.PrefSignof);
+      message = message.replace(/{college}/g, data.MyCollege);
+      message = message.replace(/{major}/g, data.MyMajor);
+      message = message.replace(/{year}/g, data.MyYear);
+      return message;
+    };
+
+    return (
+      <div className="biz-page">
+        <button className="back-button" onClick={() => handleNavigation('main')}>
+          ← Back
+        </button>
+        <h1>Step 1: Enter Recipient Info</h1>
+        <div>
+          <label>Recipients Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={alumRecData.name}
+            onChange={handleAlumRecChange}
+            className={formErrors.name ? 'error' : ''}
+          />
+          {formErrors.name && <span className="error-message">{formErrors.name}</span>}
+        </div>
+        <div>
+          <label>Company:</label>
+          <input
+            type="text"
+            name="Company"
+            value={alumRecData.Company}
+            onChange={handleAlumRecChange}
+            className={formErrors.name ? 'error' : ''}
+          />
+        </div>
+        <div>
+          <label>Recipients Position:</label>
+          <input
+            type="text"
+            name="Position"
+            value={alumRecData.Position}
+            onChange={handleAlumRecChange}
+            className={formErrors.name ? 'error' : ''}
+          />
+        </div>
+        <div>
+          <label>Position You Applied To:</label>
+          <input
+            type="text"
+            name="Job"
+            value={alumRecData.Job}
+            onChange={handleAlumRecChange}
+          />
+        </div>
+        <div>
+          <label>Your First and Last Name:</label>
+          <input
+            type="text"
+            name="PrefSignof"
+            value={alumRecData.PrefSignof}
+            onChange={handleAlumRecChange}
+          />
+        </div>
+        <div>
+          <label>Your College:</label>
+          <input
+            type="text"
+            name="MyCollege"
+            value={alumRecData.MyCollege}
+            onChange={handleAlumRecChange}
+          />
+        </div>
+        <div>
+          <label>Your Major:</label>
+          <input
+            type="text"
+            name="MyMajor"
+            value={alumRecData.MyMajor}
+            onChange={handleAlumRecChange}
+          />
+        </div>
+        <div>
+          <label>Your Year:</label>
+          <input
+            type="text"
+            name="MyYear"
+            value={alumRecData.MyYear}
+            onChange={handleAlumRecChange}
+          />
+        </div>
+        <h1>Step 2: Select Template</h1>
+        <div className="template-buttons-container">
+          {templates.map(template => (
+            <button 
+              key={template.id} 
+              className={`template-button ${selectedTemplate === template.id ? 'selected' : ''}`}
+              onClick={() => setSelectedTemplate(template.id)}
+            >
+              {template.name}
+            </button>
+          ))}
+          <button 
+            className='addtemp-button'
+            onClick={() => {
+              const name = prompt("Enter template name:");
+              const content = prompt("Enter template content:");
+              if (name && content) {
+                addNewTemplate({ id: Date.now().toString(), name, content });
+              }
+            }}
+          >
+            Create Custom Template +
+          </button>
+          <button 
+            className="generate-button"
+            onClick={() => {
+              const template = templates.find(t => t.id === selectedTemplate);
+              if (template) {
+                const message = generateMessage(template.content, alumRecData);
+                setGeneratedMessage(message);
+              }
+            }}
+          >
+            Generate Message
+          </button>
+          {generatedMessage && (
+            <div className="generated-message" style={{ textAlign: 'center' }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: '10px' 
+              }}>
+                <h2>Generated Message:</h2>
+                <div className='generated-message' style={{ textAlign: 'center' }}>
+                {generatedMessage}
+              </div>
+              </div>
+
+            </div>
+          )}
+        </div>
+        <button 
+          className="copy-button"
+          onClick={() => {
+            navigator.clipboard.writeText(generatedMessage)
+              .then(() => alert('Message copied to clipboard!'))
+              .catch(err => alert('Failed to copy message: ' + err));
+          }}
+        >
+          <FontAwesomeIcon icon={faCopy} />
+        </button>
+      </div>
+    );
+  };
 
   if (!isHomePage) {
     return (
@@ -501,7 +713,7 @@ function App(): JSX.Element {
                 {formErrors.name && <span className="error-message">{formErrors.name}</span>}
               </div>
               <div>
-                <label>Characteristics (separate by /):</label>
+                <label>Characteristics (separate by ,):</label>
                 <input
                   type="text"
                   name="characteristics"
@@ -512,7 +724,7 @@ function App(): JSX.Element {
                 {formErrors.characteristics && <span className="error-message">{formErrors.characteristics}</span>}
               </div>
               <div>
-                <label>Interests (separate by /):</label>
+                <label>Interests (separate by ,):</label>
                 <input
                   type="text"
                   name="interests"

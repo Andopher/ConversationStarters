@@ -50,11 +50,11 @@ def save_person_to_json(person):
     return True
 
 def main():
-    characteristics = input("Give me attributes about the person separated by /: ")
-    characteristicsL = [s.strip() for s in characteristics.split('/') if s.strip()]
+    characteristics = input("Give me attributes about the person separated by ,: ")
+    characteristicsL = [s.strip() for s in characteristics.split(',') if s.strip()]
     
-    interests = input("Give me the persons interests separated by /:")
-    interestsL = [s.strip() for s in interests.split('/') if s.strip()]
+    interests = input("Give me the persons interests separated by ,:")
+    interestsL = [s.strip() for s in interests.split(',') if s.strip()]
     age = input("What is the persons age: ")
     gender = input("What is the persons gender: ")
     relation = input("What is this person's relation to you? ")

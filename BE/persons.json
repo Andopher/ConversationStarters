@@ -1211,5 +1211,22 @@
         "relation": "1",
         "formality": "informal",
         "diff": "easy"
+    },
+    {
+        "name": "Alex",
+        "characteristics": [
+            "Man",
+            "Nice",
+            "Angry"
+        ],
+        "interests": [
+            "Zero Build Fortnite",
+            "The Zoo"
+        ],
+        "age": "47",
+        "gender": "Male",
+        "relation": "Brother",
+        "formality": "formal",
+        "diff": "medium"
     }
 ]
