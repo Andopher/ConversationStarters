@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { signInWithPopup, signOut } from 'firebase/auth';
-import { auth, googleProvider } from './firebase';
-import logo from './logo.svg';
+import logo from './assets/HelperLogo.png';
 
 interface ApiResponse {
   success: boolean;
@@ -91,11 +89,14 @@ function App(): JSX.Element {
     
   });
 
-  const [savedPersons, setSavedPersons] = useState<Person[]>([]);
+  const [personalPersons, setPersonalPersons] = useState<Person[]>([]);
+  const [professionalPersons, setProfessionalPersons] = useState<Person[]>([]);
+  const [personalRelations, setPersonalRelations] = useState<Set<string>>(new Set());
+  const [professionalRelations, setProfessionalRelations] = useState<Set<string>>(new Set());
   const [starters, setStarters] = useState<{[key: string]: string}>({});
   const [user, setUser] = useState<any>(null);
-  const [uniqueRelations, setUniqueRelations] = useState<Set<string>>(new Set());
   const [isHomePage, setIsHomePage] = useState(false);
+  const [currentBizPage, setCurrentBizPage] = useState<string>('main');
   const [selectedRelation, setSelectedRelation] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<FormErrors>({
     name: '',
@@ -183,8 +184,15 @@ function App(): JSX.Element {
           ...formData,
           id: Date.now().toString()
         };
-        setUniqueRelations(prev => new Set([...prev, formData.relation]));
-        setSavedPersons([...savedPersons, newPerson]);
+
+        if (isPersonalMode) {
+          setPersonalPersons([...personalPersons, newPerson]);
+          setPersonalRelations(prev => new Set([...prev, formData.relation]));
+        } else {
+          setProfessionalPersons([...professionalPersons, newPerson]);
+          setProfessionalRelations(prev => new Set([...prev, formData.relation]));
+        }
+
         setFormData({
           name: '',
           characteristics: '',
@@ -210,6 +218,10 @@ function App(): JSX.Element {
     }
   };
 
+  const handleNavigation = (page: string) => {
+    setCurrentBizPage(page);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -219,7 +231,6 @@ function App(): JSX.Element {
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
       setUser(null);
     } catch (error) {
       console.error('Error signing out:', error);
@@ -242,6 +253,197 @@ function App(): JSX.Element {
     setSelectedRelation(null);
   };
 
+  const ClientListPage = () => (
+    <div className="biz-page">
+      <button className="back-button" onClick={() => handleNavigation('main')}>
+        ← Back
+      </button>
+      <h1>Client List Management</h1>
+    </div>
+  );
+
+  const PeopleDBPage = () => (
+    <><div className="biz-page">
+      <button className="back-button" onClick={() => handleNavigation('main')}>
+        ← Back
+      </button>
+    </div><div className="App">
+        <div className="app-content">
+          {user && (
+            <div>
+              <p>Welcome, {user.displayName}!</p>
+              <button onClick={handleSignOut}>Sign Out</button>
+            </div>
+          )}
+          <div className="conversation-starter-header">
+            <h1>Add to Your Professional People Database</h1>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Name:</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className={formErrors.name ? 'error' : ''} />
+              {formErrors.name && <span className="error-message">{formErrors.name}</span>}
+            </div>
+            <div>
+              <label>Characteristics (separate by /):</label>
+              <input
+                type="text"
+                name="characteristics"
+                value={formData.characteristics}
+                onChange={handleChange}
+                className={formErrors.characteristics ? 'error' : ''} />
+              {formErrors.characteristics && <span className="error-message">{formErrors.characteristics}</span>}
+            </div>
+            <div>
+              <label>Interests (separate by /):</label>
+              <input
+                type="text"
+                name="interests"
+                value={formData.interests}
+                onChange={handleChange}
+                className={formErrors.interests ? 'error' : ''} />
+              {formErrors.interests && <span className="error-message">{formErrors.interests}</span>}
+            </div>
+            <div>
+              <label>Age:</label>
+              <input
+                type="number"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                className={formErrors.age ? 'error' : ''} />
+              {formErrors.age && <span className="error-message">{formErrors.age}</span>}
+            </div>
+            <div>
+              <label>Gender:</label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className={formErrors.gender ? 'error' : ''}
+              >
+                <option value="">Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              {formErrors.gender && <span className="error-message">{formErrors.gender}</span>}
+            </div>
+            <div>
+              <label>Relation:</label>
+              <select
+                name="relation"
+                value={formData.relation}
+                onChange={handleChange}
+                className={formErrors.relation ? 'error' : ''}
+              >
+                <option value="">Select or type a relation</option>
+                {Array.from(professionalRelations).map(relation => (
+                  <option key={relation} value={relation}>{relation}</option>
+                ))}
+              </select>
+              <input
+                type="text"
+                name="relation"
+                value={formData.relation}
+                onChange={handleChange}
+                placeholder="Or type a new relation"
+                style={{ marginTop: '5px' }}
+                className={formErrors.relation ? 'error' : ''} />
+              {formErrors.relation && <span className="error-message">{formErrors.relation}</span>}
+              {!professionalRelations.has(formData.relation) && formData.relation && (
+                <small>New relation will be added</small>
+              )}
+            </div>
+            <div>
+              <label>Formality:</label>
+              <select name="formality" value={formData.formality} onChange={handleChange}>
+                <option value="formal">Formal</option>
+                <option value="informal">Informal</option>
+              </select>
+            </div>
+            <div>
+              <label>Difficulty:</label>
+              <select name="diff" value={formData.diff} onChange={handleChange}>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+            <button type="submit">Save Person</button>
+          </form>
+          <div className="saved-persons">
+            <h2>Saved Persons by Relation</h2>
+
+            {selectedRelation ? (
+              <div className="relation-detail-view">
+                <button className="back-button" onClick={handleBackClick}>
+                  ← Back to Relations
+                </button>
+                <h3>{selectedRelation}</h3>
+                <div className="persons-grid">
+                  {professionalPersons
+                    .filter(person => person.relation === selectedRelation)
+                    .map((person) => (
+                      <div key={person.id} className="person-card">
+                        <h4>{person.name}</h4>
+                        <p>Age: {person.age}</p>
+                        <p>Gender: {person.gender}</p>
+                        <p>Characteristics: {person.characteristics}</p>
+                        <p>Interests: {person.interests}</p>
+                        <button onClick={() => generateStarter(person)}>
+                          Generate Conversation Starter
+                        </button>
+                        {starters[person.id] && (
+                          <p className="conversation-starter">
+                            {starters[person.id]}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            ) : (
+              <div className="relations-grid">
+                {[...professionalRelations].map(relation => (
+                  <button
+                    key={relation}
+                    className="relation-button"
+                    onClick={() => handleRelationClick(relation)}
+                  >
+                    <h3>{relation}</h3>
+                    <p>{professionalPersons.filter(person => person.relation === relation).length} people</p>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div></>
+  );
+
+  const EmailSignaturePage = () => (
+    <div className="biz-page">
+      <button className="back-button" onClick={() => handleNavigation('main')}>
+        ← Back
+      </button>
+      <h1>Email Signature Creator</h1>
+    </div>
+  );
+
+  const MessageTemplatesPage = () => (
+    <div className="biz-page">
+      <button className="back-button" onClick={() => handleNavigation('main')}>
+        ← Back
+      </button>
+      <h1>Message to Alumni/Recruiters Generator</h1>
+    </div>
+  );
+
   if (!isHomePage) {
     return (
       <div className="landing-page">
@@ -253,6 +455,9 @@ function App(): JSX.Element {
       </div>
     );
   }
+
+  const currentPersons = isPersonalMode ? personalPersons : professionalPersons;
+  const currentRelations = isPersonalMode ? personalRelations : professionalRelations;
 
   return (
     <>
@@ -281,7 +486,7 @@ function App(): JSX.Element {
               </div>
             )}
             <div className="conversation-starter-header">
-              <h1>Add People to Your Personal Database</h1>
+              <h1>Add to Your Personal People Database</h1>
             </div>
             <form onSubmit={handleSubmit}>
               <div>
@@ -351,7 +556,7 @@ function App(): JSX.Element {
                   className={formErrors.relation ? 'error' : ''}
                 >
                   <option value="">Select or type a relation</option>
-                  {Array.from(uniqueRelations).map(relation => (
+                  {Array.from(personalRelations).map(relation => (
                     <option key={relation} value={relation}>{relation}</option>
                   ))}
                 </select>
@@ -365,7 +570,7 @@ function App(): JSX.Element {
                   className={formErrors.relation ? 'error' : ''}
                 />
                 {formErrors.relation && <span className="error-message">{formErrors.relation}</span>}
-                {!uniqueRelations.has(formData.relation) && formData.relation && (
+                {!personalRelations.has(formData.relation) && formData.relation && (
                   <small>New relation will be added</small>
                 )}
               </div>
@@ -396,7 +601,7 @@ function App(): JSX.Element {
                   </button>
                   <h3>{selectedRelation}</h3>
                   <div className="persons-grid">
-                    {savedPersons
+                    {personalPersons
                       .filter(person => person.relation === selectedRelation)
                       .map((person) => (
                         <div key={person.id} className="person-card">
@@ -419,14 +624,14 @@ function App(): JSX.Element {
                 </div>
               ) : (
                 <div className="relations-grid">
-                  {[...uniqueRelations].map(relation => (
+                  {[...personalRelations].map(relation => (
                     <button
                       key={relation}
                       className="relation-button"
                       onClick={() => handleRelationClick(relation)}
                     >
                       <h3>{relation}</h3>
-                      <p>{savedPersons.filter(person => person.relation === relation).length} people</p>
+                      <p>{personalPersons.filter(person => person.relation === relation).length} people</p>
                     </button>
                   ))}
                 </div>
@@ -435,33 +640,40 @@ function App(): JSX.Element {
           </div>
         </div>
       ) : (
-        <div className="App">
-          <div className="app-content">
-            <div className="conversation-starter-header">
-              <h1>What Do You Need Done</h1>
+        <>
+          {!isPersonalMode && (
+            <div className="App">
+              <div className="app-content">
+                {currentBizPage === 'main' ? (
+                  <>
+                    <div className="conversation-starter-header">
+                      <h1>What Do You Need Done</h1>
+                    </div>
+                    <button className="select-biz" onClick={() => setCurrentBizPage('clients')}>
+                      Create/Manage a Client List
+                    </button>
+                    <button className="select-biz" onClick={() => setCurrentBizPage('database')}>
+                      Manage Your Professional People Database            
+                    </button>
+                    <button className="select-biz" onClick={() => setCurrentBizPage('email')}>
+                      Create an Email Signature
+                    </button>
+                    <button className="select-biz" onClick={() => setCurrentBizPage('templates')}>
+                      Message Generator to Recruiter/Alumni               
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {currentBizPage === 'clients' && <ClientListPage />}
+                    {currentBizPage === 'database' && <PeopleDBPage />}
+                    {currentBizPage === 'email' && <EmailSignaturePage />}
+                    {currentBizPage === 'templates' && <MessageTemplatesPage />}
+                  </>
+                )}
               </div>
-                <button className="select-biz">
-                Create/Manage a Client List
-                </button>
-                <div>
-                </div>
-                <button className="select-biz">
-                Manage Progessional Network            
-                </button>
-                <div>
-                </div>
-                <button className="select-biz">
-                Create an Email Signature
-                </button>
-                <div>
-                </div>
-                <button className="select-biz">
-                Message Tempelates to Recruiter/Alumni               
-                </button>
-                <div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </>
   );
