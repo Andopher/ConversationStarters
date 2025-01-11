@@ -486,3 +486,19 @@ button:hover {
   color: #F3EFE3;
   border: 2px solid #F3EFE3;
 }
+
+textarea {
+  font-family: 'Hanken Grotesk', sans-serif;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.template-form h3 {
+  color: #F3EFE3;
+  margin-bottom: 10px;
+}
+
+.template-form p {
+  color: #C1C7D7;
+  margin: 5px 0;
+}

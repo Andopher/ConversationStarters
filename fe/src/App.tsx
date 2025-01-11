@@ -55,6 +55,11 @@ interface FormErrors {
   relation: string;
 }
 
+interface TemplateForm {
+  name: string;
+  content: string;
+}
+
 const AppBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -471,6 +476,80 @@ function App(): JSX.Element {
     setTemplates([...templates, template]);
   };
 
+  const CreateTemplatePage = ({ 
+    onSubmit, 
+    onBack 
+  }: { 
+    onSubmit: (template: Template) => void;
+    onBack: () => void;
+  }) => {
+    const [templateForm, setTemplateForm] = useState<TemplateForm>({
+      name: '',
+      content: ''
+    });
+  
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      if (templateForm.name && templateForm.content) {
+        onSubmit({
+          id: Date.now().toString(),
+          name: templateForm.name,
+          content: templateForm.content
+        });
+      }
+    };
+  
+    return (
+      <div className="biz-page">
+        <button className="back-button" onClick={onBack}>
+          ← Back
+        </button>
+        <h1>Create New Template</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Template Name:</label>
+            <input
+              type="text"
+              value={templateForm.name}
+              onChange={(e) => setTemplateForm(prev => ({ ...prev, name: e.target.value }))}
+              required
+            />
+          </div>
+          <div>
+            <label>Template Content:</label>
+            <textarea
+              value={templateForm.content}
+              onChange={(e) => setTemplateForm(prev => ({ ...prev, content: e.target.value }))}
+              required
+              style={{ 
+                width: '100%', 
+                minHeight: '200px', 
+                padding: '10px',
+                marginTop: '10px',
+                backgroundColor: '#C1C7D7',
+                color: '#2F2F3A',
+                borderRadius: '6px',
+                border: '2px solid #F3EFE3'
+              }}
+            />
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <h3>Use These Variables as Placeholders:</h3>
+            <p>{'{name}'} - Recipient's name</p>
+            <p>{'{company}'} - Company name</p>
+            <p>{'{position}'} - Recipient's position</p>
+            <p>{'{job}'} - Applied position</p>
+            <p>{'{signoff}'} - Your name</p>
+            <p>{'{college}'} - Your college</p>
+            <p>{'{major}'} - Your major</p>
+            <p>{'{year}'} - Your year</p>
+          </div>
+          <button type="submit">Create Template</button>
+        </form>
+      </div>
+    );
+  };
+
   const MessageTemplatesPage = () => {
     // Add local state for AlumRec form data
     const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
@@ -485,6 +564,7 @@ function App(): JSX.Element {
       MyMajor: '',
       MyYear: ''
     });
+    const [isCreatingTemplate, setIsCreatingTemplate] = useState(false);
   
     // Add handler for AlumRec form changes
     const handleAlumRecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -507,6 +587,18 @@ function App(): JSX.Element {
       message = message.replace(/{year}/g, data.MyYear);
       return message;
     };
+
+    if (isCreatingTemplate) {
+      return (
+        <CreateTemplatePage
+          onSubmit={(newTemplate) => {
+            addNewTemplate(newTemplate);
+            setIsCreatingTemplate(false);
+          }}
+          onBack={() => setIsCreatingTemplate(false)}
+        />
+      );
+    }
 
     return (
       <div className="biz-page">
@@ -603,13 +695,7 @@ function App(): JSX.Element {
           ))}
           <button 
             className='addtemp-button'
-            onClick={() => {
-              const name = prompt("Enter template name:");
-              const content = prompt("Enter template content:");
-              if (name && content) {
-                addNewTemplate({ id: Date.now().toString(), name, content });
-              }
-            }}
+            onClick={() => setIsCreatingTemplate(true)}
           >
             Create Custom Template +
           </button>
