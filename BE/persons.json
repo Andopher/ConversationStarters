@@ -1228,5 +1228,19 @@
         "relation": "Brother",
         "formality": "formal",
         "diff": "medium"
+    },
+    {
+        "name": "Christopher Risio",
+        "characteristics": [
+            "nice/athletic/interesting"
+        ],
+        "interests": [
+            "1"
+        ],
+        "age": "12",
+        "gender": "Male",
+        "relation": "Dog sitter",
+        "formality": "informal",
+        "diff": "easy"
     }
 ]
