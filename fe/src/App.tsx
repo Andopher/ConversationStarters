@@ -5,7 +5,13 @@ import logo from './assets/HelperLogo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
 
+// Prevent Font Awesome from automatically adding CSS
+config.autoAddCss = false;
+
+// Add icons to library
 library.add(faCopy);
 
 

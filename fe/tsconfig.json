@@ -7,7 +7,6 @@
       "esnext"
     ],
     "allowJs": true,
-    "typeRoots": ["node_modules/@types", "src", "assets"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,9 +17,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "./src"]
   },
   "include": [
-    "src"
+    "src/**/*"
   ]
 }
